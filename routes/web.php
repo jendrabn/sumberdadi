@@ -40,22 +40,22 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Seller
     Route::group(['middleware' => 'role:seller', 'namespace' => 'Seller', 'prefix' => 'seller', 'as' => 'seller.'], function () {
-       Route::get('dashboard', 'DashboardController@index')->name('dashboard');
-       Route::get('community', 'CommunityController@index')->name('community.index');
-       Route::get('community/edit', 'CommunityController@edit')->name('community.edit');
-       Route::put('community', 'CommunityController@update')->name('community.update');
-       Route::resource('events', 'CommunityEventController');
-       Route::post('events/attendee/add', 'CommunityEventController@addAttendee')->name('events.add_attendee');
-       Route::delete('events/attendee/remove', 'CommunityEventController@removeAttendee')->name('events.remove_attendee');
-       Route::get('store', 'StoreController@index')->name('store.index');
-       Route::get('store/edit', 'StoreController@edit')->name('store.edit');
-       Route::put('store', 'StoreController@update')->name('store.update');
-       Route::resource('products', 'ProductController');
-       Route::get('products/{id}/images', 'ProductController@addImage')->name('products.add_image');
-       Route::post('products/{id}/images', 'ProductController@uploadImage')->name('products.upload_image');
-       Route::delete('products/{id}/images', 'ProductController@deleteImage')->name('products.delete_image');
-       Route::resource('withdrawals', 'WithdrawController')->except(['destroy', 'edit', 'update']);
-       Route::resource('orders', 'OrderController')->except(['destroy', 'create', 'store']);
+        Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+        Route::get('community', 'CommunityController@index')->name('community.index');
+        Route::get('community/edit', 'CommunityController@edit')->name('community.edit');
+        Route::put('community', 'CommunityController@update')->name('community.update');
+        Route::resource('events', 'CommunityEventController');
+        Route::post('events/attendee/add', 'CommunityEventController@addAttendee')->name('events.add_attendee');
+        Route::delete('events/attendee/remove', 'CommunityEventController@removeAttendee')->name('events.remove_attendee');
+        Route::get('store', 'StoreController@index')->name('store.index');
+        Route::get('store/edit', 'StoreController@edit')->name('store.edit');
+        Route::put('store', 'StoreController@update')->name('store.update');
+        Route::resource('products', 'ProductController');
+        Route::get('products/{id}/images', 'ProductController@addImage')->name('products.add_image');
+        Route::post('products/{id}/images', 'ProductController@uploadImage')->name('products.upload_image');
+        Route::delete('products/{id}/images', 'ProductController@deleteImage')->name('products.delete_image');
+        Route::resource('withdrawals', 'WithdrawController')->except(['destroy', 'edit', 'update']);
+        Route::resource('orders', 'OrderController')->except(['destroy', 'create', 'store']);
     });
 
     // User
@@ -92,4 +92,3 @@ Route::get('/events/{event}', 'HomeController@event')->name('community.event.sho
 Route::get('/category/{category}', 'ProductController@category')->name('category');
 Route::get('/products', 'ProductController@index')->name('products');
 Route::get('/{store}/{product}', 'ProductController@show')->name('product.show');
-

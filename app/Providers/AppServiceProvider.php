@@ -2,32 +2,26 @@
 
 namespace App\Providers;
 
-use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        if (config('app.force_https')) {
-            $this->app['request']->server->set('HTTPS', true);
-        }
+        //
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot(UrlGenerator $url)
+    public function boot(): void
     {
-        if (config('app.force_https')) {
-            $url->forceScheme('https');
-        }
+        Blade::directive('priceIDR', function ($expression) {
+            return "Rp. <?= number_format($expression, 0, ',','.') ?>";
+        });
     }
 }
