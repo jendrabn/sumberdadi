@@ -26,10 +26,10 @@ class OrderDataTable extends DataTable
                 return $order->items->count();
             })
             ->addColumn('total', function ($order) {
-                return 'Rp. '. number_format($order->total_amount, 0, ',','.');
+                return 'Rp. ' . number_format($order->total_amount, 0, ',', '.');
             })
             ->addColumn('action', function ($order) {
-                return '<a href="'. route('seller.orders.show', $order->id). '" class="btn btn-md btn-outline-primary" title="Detail Pesanan"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('seller.orders.show', $order->id) . '" class="btn btn-md btn-outline-primary" title="Detail Pesanan"><i class="fa fa-eye"></i></a>';
             });
     }
 
@@ -52,16 +52,16 @@ class OrderDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('orders-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reload')
-                    );
+            ->setTableId('orders-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -73,12 +73,12 @@ class OrderDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id'),
-            Column::computed('user','Customer')->orderable(false)->searchable(false),
+            Column::computed('user', 'Customer')->orderable(false)->searchable(false),
             Column::computed('barang', 'Barang')->orderable(false)->searchable(false),
             Column::computed('total')->orderable(false)->searchable(false),
             Column::make('status'),
@@ -92,7 +92,7 @@ class OrderDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Seller\Order_' . date('YmdHis');
     }

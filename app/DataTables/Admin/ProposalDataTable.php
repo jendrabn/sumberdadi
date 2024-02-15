@@ -20,7 +20,7 @@ class ProposalDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($proposal) {
-                return '<a href="'. route('admin.proposals.show', $proposal->id). '" class="btn btn-md btn-outline-primary" title="Detail Proposal"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('admin.proposals.show', $proposal->id) . '" class="btn btn-md btn-outline-primary" title="Detail Proposal"><i class="fa fa-eye"></i></a>';
             })
             ->addColumn('status', function ($proposal) {
                 if (!empty($proposal->reject_reason) && !empty($proposal->rejected_at)) {
@@ -52,14 +52,14 @@ class ProposalDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('proposals-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('reload')
-                    );
+            ->setTableId('proposals-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('reload')
+            );
     }
 
     /**
@@ -71,10 +71,10 @@ class ProposalDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id'),
             Column::computed('user')->orderable(false)->searchable(false),
             Column::computed('status')->orderable(false)->searchable(false),
@@ -88,7 +88,7 @@ class ProposalDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Admin\Proposal_' . date('YmdHis');
     }

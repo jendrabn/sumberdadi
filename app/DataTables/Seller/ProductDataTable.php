@@ -20,16 +20,16 @@ class ProductDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('price', function ($product) {
-                return 'Rp. '. number_format($product->price, 0, ',','.');
+                return 'Rp. ' . number_format($product->price, 0, ',', '.');
             })
             ->addColumn('category', function ($product) {
                 return $product->category->name;
             })
             ->addColumn('weight_info', function ($product) {
-                return $product->weight .' '. $product->weight_unit;
+                return $product->weight . ' ' . $product->weight_unit;
             })
             ->addColumn('action', function ($product) {
-                return '<a href="'. route('seller.products.show', $product->id). '" class="btn btn-md btn-outline-primary" title="Detail '. $product->name .'"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('seller.products.show', $product->id) . '" class="btn btn-md btn-outline-primary" title="Detail ' . $product->name . '"><i class="fa fa-eye"></i></a>';
             });
     }
 
@@ -52,17 +52,17 @@ class ProductDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('products-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reload')
-                    );
+            ->setTableId('products-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -74,10 +74,10 @@ class ProductDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id'),
             Column::make('name')->title('Nama'),
             Column::computed('price')->orderable(false)->searchable(false)->title('Harga'),
@@ -93,7 +93,7 @@ class ProductDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Seller\Product_' . date('YmdHis');
     }

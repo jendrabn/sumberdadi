@@ -23,16 +23,16 @@ class StoreDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($store) {
-                return '<a href="'. route('admin.stores.show', $store->slug). '" class="btn btn-md btn-outline-primary" title="Detail '. $store->name .'"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('admin.stores.show', $store->slug) . '" class="btn btn-md btn-outline-primary" title="Detail ' . $store->name . '"><i class="fa fa-eye"></i></a>';
             })
             ->addColumn('community', function ($store) {
-                return '<a href="'. route('admin.communities.show', $store->community->id). '" title="Detail '. $store->community->name .'">'. $store->community->name .'</a>';
+                return '<a href="' . route('admin.communities.show', $store->community->id) . '" title="Detail ' . $store->community->name . '">' . $store->community->name . '</a>';
             })
             ->addColumn('products', function ($store) {
                 return $store->products->count();
             })
             ->addColumn('balance', function ($store) {
-                return "Rp. ".number_format($store->balance, 0, ',','.') . ",-";
+                return "Rp. " . number_format($store->balance, 0, ',', '.') . ",-";
             })
             ->rawColumns(['action', 'community', 'store']);
     }
@@ -56,16 +56,16 @@ class StoreDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('stores')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('print'),
-                        Button::make('reload')
-                    );
+            ->setTableId('stores')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('print'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -77,10 +77,10 @@ class StoreDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id'),
             Column::make('name'),
             Column::computed('community'),
@@ -97,7 +97,7 @@ class StoreDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Stores_' . date('YmdHis');
     }

@@ -22,10 +22,10 @@ class WithdrawalDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('amount', function ($withdrawal) {
-                return 'Rp. '. number_format($withdrawal->amount, 0, ',','.');
+                return 'Rp. ' . number_format($withdrawal->amount, 0, ',', '.');
             })
             ->addColumn('action', function ($withdrawal) {
-                return '<a href="'. route('seller.withdrawals.show', $withdrawal->id). '" class="btn btn-md btn-outline-primary" title="Detail Withdrwal"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('seller.withdrawals.show', $withdrawal->id) . '" class="btn btn-md btn-outline-primary" title="Detail Withdrwal"><i class="fa fa-eye"></i></a>';
             });
     }
 
@@ -48,16 +48,16 @@ class WithdrawalDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('withdrawals-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('reload')
-                    );
+            ->setTableId('withdrawals-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('export'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -69,10 +69,10 @@ class WithdrawalDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id'),
             Column::computed('amount'),
             Column::make('status'),
@@ -87,7 +87,7 @@ class WithdrawalDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Seller\Withdrawal_' . date('YmdHis');
     }

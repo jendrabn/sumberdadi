@@ -20,7 +20,7 @@ class PaymentDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($payment) {
-                return '<a href="'. route('admin.payments.show', $payment->id). '" class="btn btn-md btn-outline-primary" title="Detail payment"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('admin.payments.show', $payment->id) . '" class="btn btn-md btn-outline-primary" title="Detail payment"><i class="fa fa-eye"></i></a>';
             });
     }
 
@@ -43,14 +43,14 @@ class PaymentDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('payments-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('reload')
-                    );
+            ->setTableId('payments-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('reload')
+            );
     }
 
     /**
@@ -62,10 +62,10 @@ class PaymentDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id'),
             Column::make('method'),
             Column::make('amount'),
@@ -79,7 +79,7 @@ class PaymentDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Admin\Payment_' . date('YmdHis');
     }

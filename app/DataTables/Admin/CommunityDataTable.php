@@ -23,13 +23,13 @@ class CommunityDataTable extends DataTable
                 return $community->members()->count();
             })
             ->addColumn('action', function ($community) {
-                return '<a href="'. route('admin.communities.show', $community->id). '" class="btn btn-md btn-outline-primary" title="Detail '. $community->name .'"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('admin.communities.show', $community->id) . '" class="btn btn-md btn-outline-primary" title="Detail ' . $community->name . '"><i class="fa fa-eye"></i></a>';
             })
             ->addColumn('img_logo', function ($community) {
-                return '<img class="img-responsive rounded-circle" style="height: 50px" src="'. $community->logo_url .'">';
+                return '<img class="img-responsive rounded-circle" style="height: 50px" src="' . $community->logo_url . '">';
             })
             ->addColumn('handler', function ($community) {
-                return '<a href="'. route('admin.users.show', $community->user->id). '">'. $community->user->full_name. '</a>';
+                return '<a href="' . route('admin.users.show', $community->user->id) . '">' . $community->user->full_name . '</a>';
             })
             ->rawColumns(['img_logo', 'action', 'handler']);
     }
@@ -53,16 +53,16 @@ class CommunityDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('community')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('print'),
-                        Button::make('reload')
-                    );
+            ->setTableId('community')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('print'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -74,10 +74,10 @@ class CommunityDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id')->hidden(),
             Column::computed('total_members')->width(15)->orderable(false)->searchable(false)->addClass('text-center'),
             Column::make('name'),
@@ -92,7 +92,7 @@ class CommunityDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Communities_' . date('YmdHis');
     }

@@ -23,7 +23,7 @@ class CommunityEventDataTable extends DataTable
                 return $event->attendees->count() . ' / ' . $event->community->members->count();
             })
             ->addColumn('action', function ($event) {
-                return '<a href="'. route('seller.events.show', $event->id). '" class="btn btn-md btn-outline-primary" title="Detail '. $event->name .'"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('seller.events.show', $event->id) . '" class="btn btn-md btn-outline-primary" title="Detail ' . $event->name . '"><i class="fa fa-eye"></i></a>';
             })
             ->rawColumns(['action', 'community']);
     }
@@ -47,17 +47,17 @@ class CommunityEventDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('events-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reload')
-                    );
+            ->setTableId('events-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -69,10 +69,10 @@ class CommunityEventDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('created_at')->hidden(),
             Column::make('id')->hidden(),
             Column::make('name')->title('Nama Kegiatan'),
@@ -88,7 +88,7 @@ class CommunityEventDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Events_' . date('YmdHis');
     }

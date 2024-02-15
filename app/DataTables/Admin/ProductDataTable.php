@@ -20,10 +20,10 @@ class ProductDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('price', function ($product) {
-                return 'Rp. '. number_format($product->price, 0, ',','.');
+                return 'Rp. ' . number_format($product->price, 0, ',', '.');
             })
             ->addColumn('action', function ($product) {
-                return '<a href="'. route('admin.products.show', $product->id). '" class="btn btn-md btn-outline-primary" title="Detail '. $product->name .'"><i class="fa fa-eye"></i></a>';
+                return '<a href="' . route('admin.products.show', $product->id) . '" class="btn btn-md btn-outline-primary" title="Detail ' . $product->name . '"><i class="fa fa-eye"></i></a>';
             });
     }
 
@@ -46,16 +46,16 @@ class ProductDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('products')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('print'),
-                        Button::make('reload')
-                    );
+            ->setTableId('products')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('print'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -67,10 +67,10 @@ class ProductDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
             Column::make('id'),
             Column::make('name'),
             Column::computed('price'),
@@ -88,7 +88,7 @@ class ProductDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'Admin\Product_' . date('YmdHis');
     }

@@ -46,16 +46,16 @@ class UserDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('user-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('create'),
-                        Button::make('print'),
-                        Button::make('reload')
-                    );
+            ->setTableId('user-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('create'),
+                Button::make('print'),
+                Button::make('reload')
+            );
     }
 
     /**
@@ -67,10 +67,10 @@ class UserDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(30)
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::make('id'),
             Column::make('first_name')->hidden()->exportable(false),
             Column::make('last_name')->hidden()->exportable(false),
@@ -87,7 +87,7 @@ class UserDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'User_' . date('YmdHis');
     }
