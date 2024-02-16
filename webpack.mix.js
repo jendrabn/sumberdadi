@@ -15,8 +15,7 @@ let asset = "public/assets/";
 let css = asset + "/css";
 let js = asset + "/js";
 
-mix.sass("resources/sass/app.scss", css)
-    .sass("resources/sass/components.scss", css)
+mix.sass("resources/sass/adminlte/adminlte.scss", css)
     .sass("resources/sass/front/ui.scss", css)
     .sass("resources/sass/front/responsive.scss", css)
     .sass("resources/sass/front/bootstrap.scss", css)

@@ -5,7 +5,8 @@
     "/assets/css/components.css": "/assets/css/components.css",
     "/assets/css/ui.css": "/assets/css/ui.css",
     "/assets/css/app.css": "/assets/css/app.css",
-    "/assets/css/bootstrap.css": "/assets/css/bootstrap.css",
     "/assets/css/responsive.css": "/assets/css/responsive.css",
+    "/assets/css/adminlte.css": "/assets/css/adminlte.css",
+    "/assets/css/bootstrap.css": "/assets/css/bootstrap.css",
     "/assets/js/vendor.js": "/assets/js/vendor.js"
 }
