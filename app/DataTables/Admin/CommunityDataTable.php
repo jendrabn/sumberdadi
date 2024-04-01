@@ -3,97 +3,95 @@
 namespace App\DataTables\Admin;
 
 use App\Models\Community;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class CommunityDataTable extends DataTable
 {
     /**
-     * Build DataTable class.
+     * Build the DataTable class.
      *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable($query)
+    public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return datatables()
-            ->eloquent($query)
+        return (new EloquentDataTable($query))
             ->addColumn('total_members', function ($community) {
                 return $community->members()->count();
             })
-            ->addColumn('action', function ($community) {
-                return '<a href="' . route('admin.communities.show', $community->id) . '" class="btn btn-md btn-outline-primary" title="Detail ' . $community->name . '"><i class="fa fa-eye"></i></a>';
-            })
             ->addColumn('img_logo', function ($community) {
-                return '<img class="img-responsive rounded-circle" style="height: 50px" src="' . $community->logo_url . '">';
+                return '<a href="' . $community->logo_url . '" target="_blank">
+                            <img class="img-responsive" style="height: 25px" src="' . $community->logo_url . '">
+                        </a>';
             })
             ->addColumn('handler', function ($community) {
                 return '<a href="' . route('admin.users.show', $community->user->id) . '">' . $community->user->full_name . '</a>';
             })
-            ->rawColumns(['img_logo', 'action', 'handler']);
+            ->addColumn('action', 'admin.community.action')
+            ->rawColumns(['img_logo', 'handler', 'action'])
+            ->setRowId('id');
     }
 
     /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\Community $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Get the query source of dataTable.
      */
-    public function query(Community $model)
+    public function query(Community $model): QueryBuilder
     {
         return $model->newQuery();
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
+     * Optional method if you want to use the html builder.
      */
-    public function html()
+    public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('community')
+            ->setTableId('community-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->orderBy(1)
-            ->buttons(
+            ->selectStyleSingle()
+            ->buttons([
                 Button::make('create'),
+                Button::make('export'),
                 Button::make('print'),
+                Button::make('reset'),
                 Button::make('reload')
-            );
+            ]);
     }
 
     /**
-     * Get columns.
-     *
-     * @return array
+     * Get the dataTable columns definition.
      */
-    protected function getColumns()
+    public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
-            Column::make('id')->hidden(),
+            Column::make('id')->title('ID'),
             Column::computed('total_members')->width(15)->orderable(false)->searchable(false)->addClass('text-center'),
             Column::make('name'),
             Column::computed('handler')->searchable(false)->orderable(false),
             Column::make('img_logo'),
             Column::make('founded_at'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
     /**
-     * Get filename for export.
-     *
-     * @return string
+     * Get the filename for export.
      */
     protected function filename(): string
     {
-        return 'Communities_' . date('YmdHis');
+        return 'Community_' . date('YmdHis');
     }
 }

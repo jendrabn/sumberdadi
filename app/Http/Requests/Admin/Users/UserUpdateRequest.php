@@ -29,21 +29,15 @@ class UserUpdateRequest extends FormRequest
             'last_name' => ['string', 'max:255', 'nullable'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['nullable', 'string', 'min:8'],
-            'role_id' => ['required', 'array'],
+            'roles' => ['required', 'array'],
+            'roles.*' => ['required', 'integer'],
         ];
     }
 
-    public function validated()
+    public function prepareForValidation(): void
     {
-        $validated = parent::validated();
-        if (!$this->request->get('password')) {
-            unset($validated['password']);
-            return $validated;
+        if (!$this->filled('password')) {
+            $this->request->remove('password');
         }
-
-        $validated['password'] = Hash::make($this->request->get('password'));
-
-        return $validated;
     }
-
 }

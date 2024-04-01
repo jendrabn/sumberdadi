@@ -3,6 +3,9 @@
 namespace App\DataTables\Admin;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -12,38 +15,32 @@ use Yajra\DataTables\Services\DataTable;
 class UserDataTable extends DataTable
 {
     /**
-     * Build DataTable class.
+     * Build the DataTable class.
      *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable($query)
+    public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return datatables()
-            ->eloquent($query)
+        return (new EloquentDataTable($query))
+            ->addColumn('action', 'admin.user.action')
             ->addColumn('roles', function ($user) {
                 return $user->roles()->pluck('name')->implode(', ');
             })
-            ->addColumn('action', 'admin.user.action');
+            ->setRowId('id');
     }
 
     /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\User $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Get the query source of dataTable.
      */
-    public function query(User $model)
+    public function query(User $model): QueryBuilder
     {
         return $model->newQuery();
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
+     * Optional method if you want to use the html builder.
      */
-    public function html()
+    public function html(): HtmlBuilder
     {
         return $this->builder()
             ->setTableId('user-table')
@@ -51,41 +48,39 @@ class UserDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->orderBy(1)
-            ->buttons(
+            ->selectStyleSingle()
+            ->buttons([
                 Button::make('create'),
+                Button::make('export'),
                 Button::make('print'),
+                Button::make('reset'),
                 Button::make('reload')
-            );
+            ]);
     }
 
     /**
-     * Get columns.
-     *
-     * @return array
+     * Get the dataTable columns definition.
      */
-    protected function getColumns()
+    public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(30)
-                ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('first_name')->hidden()->exportable(false),
-            Column::make('last_name')->hidden()->exportable(false),
+            Column::make('id')->addClass('text-center')->title('ID'),
+            Column::make('first_name')->hidden(),
+            Column::make('last_name')->hidden(),
             Column::make('full_name')->orderable(false)->searchable(false),
             Column::make('email'),
             Column::computed('roles')->orderable(false)->searchable(false),
             Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
     /**
-     * Get filename for export.
-     *
-     * @return string
+     * Get the filename for export.
      */
     protected function filename(): string
     {

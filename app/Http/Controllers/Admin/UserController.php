@@ -70,6 +70,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all()->pluck('name', 'id');
+
         return view('admin.user.edit', compact('user', 'roles'));
     }
 
@@ -84,8 +85,8 @@ class UserController extends Controller
     {
         $user->update($request->validated());
 
-        if ($request->get('role_id')) {
-            $user->syncRoles($request->get('role_id'));
+        if ($request->get('roles')) {
+            $user->syncRoles($request->get('roles'));
         }
 
         return redirect()->route('admin.users.index');

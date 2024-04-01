@@ -1,30 +1,34 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Manage Products')
 
-@section('content')
-    <section class="section">
-        <div class="section-header">
-            <h1>Community Products</h1>
-        </div>
-        <div class="section-body">
-            <h2 class="section-title">List of Community Products</h2>
-            <p class="section-lead">This page is for managing community products.</p>
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h4>Community Products</h4>
-                </div>
-                <div class="card-body">
-                    @include('partials.alerts')
-                    <div class="table-responsive">
-                        {{ $dataTable->table() }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+@section('content_header')
+  <div class="row mb-2">
+    <div class="col-sm-6">
+      <h1 class="m-0">Community Products</h1>
+      <p class="m-0">This page is for managing community products.</p>
+    </div>
+  </div>
 @endsection
 
-@push('javascript')
-    {{ $dataTable->scripts() }}
+@section('content')
+  <div class="row">
+    <div class="col-12">
+      <div class="card card">
+        <div class="card-header">
+          <h3 class="card-title">Community Products</h3>
+        </div>
+        <div class="card-body">
+          @include('partials.alerts')
+          <div class="table-responsive">
+            {{ $dataTable->table(['class' => 'table table-bordered table-striped table-hover datatable table-sm']) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
+
+@push('scripts')
+  {{ $dataTable->scripts() }}
 @endpush

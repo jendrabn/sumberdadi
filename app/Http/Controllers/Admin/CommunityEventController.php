@@ -67,6 +67,7 @@ class CommunityEventController extends Controller
     {
         $event = CommunityEvent::with('attendees', 'attendees.member', 'attendees.member.user')->findOrfail($id);
         $members = CommunityMember::with('user')->where(['community_id' => $event->community->id])->get();
+
         return view('admin.event.show', compact('event', 'members'));
     }
 
@@ -138,7 +139,8 @@ class CommunityEventController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function removeAttendee(Request $request) {
+    public function removeAttendee(Request $request)
+    {
         $this->validate($request, [
             'attendee_id' => 'required|numeric|exists:community_event_attendees,id'
         ]);

@@ -45,6 +45,10 @@ class Store extends Model
         'verified_at'
     ];
 
+    public $casts = [
+        'verified_at' => 'datetime'
+    ];
+
     public function getRouteKeyName()
     {
         return 'slug';

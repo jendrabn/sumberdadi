@@ -135,8 +135,8 @@ class CommunityController extends Controller
         ]) + ['joined_at' => now()];
 
         $isUserInCurrentCommunity = User::whereHas('communities', function ($q) use ($request) {
-                $q->where('community_id', $request->get('community_id'));
-            })
+            $q->where('community_id', $request->get('community_id'));
+        })
             ->find($request->get('user_id'));
 
         // if user exists in current community

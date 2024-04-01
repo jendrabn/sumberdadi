@@ -3,96 +3,92 @@
 namespace App\DataTables\Admin;
 
 use App\Models\CommunityEvent;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class CommunityEventDataTable extends DataTable
 {
     /**
-     * Build DataTable class.
+     * Build the DataTable class.
      *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable($query)
+    public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return datatables()
-            ->eloquent($query)
+        return (new EloquentDataTable($query))
             ->addColumn('attendees', function ($event) {
                 return $event->attendees->count() . ' / ' . $event->community->members->count();
             })
             ->addColumn('community', function ($event) {
                 return '<a href="' . route('admin.communities.show', $event->community->id) . '" title="Detail ' . $event->community->name . '">' . $event->community->name . '</a>';
             })
-            ->addColumn('action', function ($event) {
-                return '<a href="' . route('admin.events.show', $event->id) . '" class="btn btn-md btn-outline-primary" title="Detail ' . $event->name . '"><i class="fa fa-eye"></i></a>';
-            })
-            ->rawColumns(['action', 'community']);
+            ->addColumn('action', 'admin.event.action')
+            ->rawColumns(['action', 'community'])
+            ->setRowId('id');
     }
 
     /**
-     * Get query source of dataTable.
-     *
-     * @param \App\Models\CommunityEvent $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Get the query source of dataTable.
      */
-    public function query(CommunityEvent $model)
+    public function query(CommunityEvent $model): QueryBuilder
     {
         return $model->newQuery();
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
+     * Optional method if you want to use the html builder.
      */
-    public function html()
+    public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('events-table')
+            ->setTableId('communityevent-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->orderBy(1)
-            ->buttons(
+            ->selectStyleSingle()
+            ->buttons([
                 Button::make('create'),
+                Button::make('export'),
                 Button::make('print'),
+                Button::make('reset'),
                 Button::make('reload')
-            );
+            ]);
     }
 
     /**
-     * Get columns.
-     *
-     * @return array
+     * Get the dataTable columns definition.
      */
-    protected function getColumns()
+    public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+            Column::make('id')->class('text-center')->title('ID'),
             Column::make('created_at')->hidden(),
-            Column::make('id')->hidden(),
             Column::make('name'),
             Column::computed('community')->searchable(false)->orderable(false),
             Column::computed('attendees')->searchable(false)->orderable(false),
             Column::make('location'),
             Column::make('started_at'),
             Column::make('ended_at'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
     /**
-     * Get filename for export.
-     *
-     * @return string
+     * Get the filename for export.
      */
     protected function filename(): string
     {
-        return 'Events_' . date('YmdHis');
+        return 'CommunityEvent_' . date('YmdHis');
     }
 }

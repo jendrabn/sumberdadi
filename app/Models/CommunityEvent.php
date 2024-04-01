@@ -30,14 +30,17 @@ class CommunityEvent extends Model
      */
     protected $keyType = 'integer';
 
-    protected $dates = [
-        'started_at', 'ended_at'
+    protected $casts = [
+        'started_at' => 'datetime', 'ended_at' => 'datetime'
     ];
 
     /**
      * @var array
      */
-    protected $fillable = ['community_id', 'name', 'banner', 'description', 'location', 'max_attendees', 'started_at', 'ended_at', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'community_id', 'name', 'banner', 'description', 'location', 'max_attendees', 'started_at', 'ended_at', 'created_at', 'updated_at'
+    ];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -86,5 +89,4 @@ class CommunityEvent extends Model
 
         return $this->started_at->isBefore(today());
     }
-
 }
